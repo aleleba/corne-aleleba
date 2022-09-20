@@ -18,9 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
+#include <stdbool.h>
+
 enum {
     TD_CTN,
-    TD_CTN_MAC,
     TD_ENTER,
     TD_SHIFT,
     TD_ALT,
@@ -30,10 +31,56 @@ enum {
     TD_EQL
 };
 
+bool isWindows = true;
+
+void dance_cln_finished (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    if (isWindows == true) {
+        register_code (KC_LCTL); 
+    } else {
+        register_code (KC_LGUI); 
+    }
+  } else if (state->count == 2) {
+    if (isWindows == true) {
+        register_code (KC_LGUI); 
+    } else {
+        register_code (KC_LCTL); 
+    }
+  } else if (state->count == 3) {
+    register_code (KC_LCTL);
+    register_code (KC_LGUI);
+  } else {
+    if (isWindows == true) {
+        isWindows = false;
+    } else {
+        isWindows = true;
+    }
+  }
+}
+
+void dance_cln_reset (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    if (isWindows == true) {
+        unregister_code (KC_LCTL); 
+    } else {
+        unregister_code (KC_LGUI); 
+    }
+  } else if (state->count == 2) {
+    if (isWindows == true) {
+        unregister_code (KC_LGUI); 
+    } else {
+        unregister_code (KC_LCTL); 
+    }
+  } else if (state->count == 3) {
+    unregister_code (KC_LCTL);
+    unregister_code (KC_LGUI);
+  }
+}
+
+
 qk_tap_dance_action_t tap_dance_actions[] = {
     // tap twice for change
-    [TD_CTN] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, KC_LGUI),
-    [TD_CTN_MAC] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, KC_LCTL),
+    [TD_CTN] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_cln_finished, dance_cln_reset),
     [TD_ENTER] = ACTION_TAP_DANCE_DOUBLE(KC_ENT, KC_MINS),
     [TD_SHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
     [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_RALT, KC_LALT),
@@ -50,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+----------|
     TD(TD_ALT),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,   KC_J,    KC_K,    KC_L, TD(TD_EQL), TD(TD_ENTER),
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+----------|
-    TD(TD_CTN_MAC),   KC_Z,    KC_X,    KC_C,  KC_V,   KC_B,                          KC_N,   KC_M, TD(TD_COMM), TD(TD_DOT),  KC_SLSH, TD(TD_SHIFT),
+    TD(TD_CTN),   KC_Z,    KC_X,    KC_C,  KC_V,   KC_B,                          KC_N,   KC_M, TD(TD_COMM), TD(TD_DOT),  KC_SLSH, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+----------|
                                           TT(4),   TT(2),  KC_SPC,     KC_SPC,   TT(1), TT(3)
                                       //`--------------------------'  `--------------------------'
@@ -62,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      TD(TD_ALT), LSFT(KC_4), LSFT(KC_9), LSFT(KC_0), KC_LBRC, KC_RBRC,            KC_4,    KC_5,    KC_6,  KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_CTN_MAC), LSFT(KC_6), LSFT(KC_2), KC_QUOT, KC_GRV, KC_BSLS,                KC_1,    KC_2,    KC_3,  KC_MINS, LSFT(KC_EQL), TD(TD_SHIFT),
+     TD(TD_CTN), LSFT(KC_6), LSFT(KC_2), KC_QUOT, KC_GRV, KC_BSLS,                KC_1,    KC_2,    KC_3,  KC_MINS, LSFT(KC_EQL), TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX,  KC_TAB,  KC_SPC,     KC_SPC,   TT(1),   KC_0
                                       //`--------------------------'  `--------------------------'
