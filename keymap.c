@@ -28,12 +28,15 @@ enum {
     TD_TAB,
     TD_COMM,
     TD_DOT,
-    TD_EQL
+    TD_EQL,
+    TD_BRC,
+    TD_SBRC,
+    TD_PAR
 };
 
 bool isWindows = true;
 
-void dance_cln_finished (qk_tap_dance_state_t *state, void *user_data) {
+void dance_ctn_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (isWindows == true) {
         register_code (KC_LCTL); 
@@ -57,8 +60,7 @@ void dance_cln_finished (qk_tap_dance_state_t *state, void *user_data) {
     }
   }
 }
-
-void dance_cln_reset (qk_tap_dance_state_t *state, void *user_data) {
+void dance_ctn_reset (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (isWindows == true) {
         unregister_code (KC_LCTL); 
@@ -77,10 +79,12 @@ void dance_cln_reset (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-
 qk_tap_dance_action_t tap_dance_actions[] = {
     // tap twice for change
-    [TD_CTN] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_cln_finished, dance_cln_reset),
+    [TD_CTN] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_ctn_finished, dance_ctn_reset),
+    [TD_BRC] = ACTION_TAP_DANCE_DOUBLE(LSFT(KC_LBRC), LSFT(KC_RBRC)),
+    [TD_SBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
+    [TD_PAR] = ACTION_TAP_DANCE_DOUBLE(LSFT(KC_9), LSFT(KC_0)),
     [TD_ENTER] = ACTION_TAP_DANCE_DOUBLE(KC_ENT, KC_MINS),
     [TD_SHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
     [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_RALT, KC_LALT),
@@ -105,9 +109,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_ESC, LSFT(KC_5), KC_NUHS, LSFT(KC_7), LSFT(KC_1), LSFT(KC_SLSH),         KC_7,    KC_8,    KC_9,  KC_SLASH,  KC_UP, LSFT(KC_8),
+     TD(TD_TAB), LSFT(KC_5), KC_NUHS, LSFT(KC_7), LSFT(KC_1), LSFT(KC_SLSH),      KC_7,    KC_8,    KC_9,  KC_SLASH,  KC_UP, LSFT(KC_8),
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_ALT), LSFT(KC_4), LSFT(KC_9), LSFT(KC_0), KC_LBRC, KC_RBRC,            KC_4,    KC_5,    KC_6,  KC_LEFT, KC_DOWN, KC_RIGHT,
+     TD(TD_ALT), LSFT(KC_4), XXXXXXX, TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),        KC_4,    KC_5,    KC_6,  KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      TD(TD_CTN), LSFT(KC_6), LSFT(KC_2), KC_QUOT, KC_GRV, KC_BSLS,                KC_1,    KC_2,    KC_3,  KC_MINS, LSFT(KC_EQL), TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
