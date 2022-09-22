@@ -147,13 +147,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    TD(TD_TAB),  KC_Q,  KC_W,    KC_E,    KC_R,    KC_T,                        KC_KP_7, KC_KP_8, KC_KP_9, KC_PMNS,  KC_UP,  KC_PPLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    TD(TD_ALT),  KC_A,    KC_S,    KC_D,   KC_F,    KC_G,                       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    TD(TD_CTN),  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,                       KC_KP_1, KC_KP_2, KC_KP_3, KC_PSLS, KC_PAST, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX,  KC_SPC,     KC_SPC, XXXXXXX, TT(3)
+                                        TD(TD_ALT), TD(TD_CTN),KC_SPC,  KC_SPC, TD(TD_SHIFT), TT(3)
                                       //`--------------------------'  `--------------------------'
   ),
 
