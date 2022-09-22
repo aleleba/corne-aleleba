@@ -34,7 +34,8 @@ enum {
     TD_BRC,
     TD_SBRC,
     TD_PAR,
-    TD_GRV
+    TD_GRV,
+    TD_BSLS
 };
 
 bool isWindows = true;
@@ -103,7 +104,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_COMM] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_SCLN),
     [TD_DOT] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, LSFT(KC_SCLN)),
     [TD_EQL] = ACTION_TAP_DANCE_DOUBLE(KC_EQL, LSFT(KC_MINS)),
-    [TD_GRV] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_grv_finished, NULL)
+    [TD_GRV] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_grv_finished, NULL),
+    [TD_BSLS] = ACTION_TAP_DANCE_DOUBLE(LSFT(KC_BSLS), KC_BSLS)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -121,9 +123,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     TD(TD_TAB), LSFT(KC_5), KC_NUHS, LSFT(KC_7), LSFT(KC_1), LSFT(KC_SLSH),     KC_KP_7, KC_KP_8, KC_KP_9, KC_PMNS,  KC_UP,  KC_PPLS,
+     TD(TD_TAB), LSFT(KC_5), LSFT(KC_3), LSFT(KC_7), LSFT(KC_1), LSFT(KC_SLSH),  KC_KP_7, KC_KP_8, KC_KP_9, KC_PMNS,  KC_UP,  KC_PPLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_ALT), LSFT(KC_4), KC_BSLS, TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
+     TD(TD_ALT), LSFT(KC_4), TD(TD_BSLS), TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),   KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      TD(TD_CTN), LSFT(KC_6), LSFT(KC_2), KC_QUOT, LSFT(KC_QUOT), TD(TD_GRV),     KC_KP_1, KC_KP_2, KC_KP_3, KC_PSLS, KC_PAST, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
