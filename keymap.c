@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdbool.h>
 
+#include <keymap_us_international.h>
+
 enum {
     TD_CTN,
     TD_ENTER,
@@ -31,7 +33,8 @@ enum {
     TD_EQL,
     TD_BRC,
     TD_SBRC,
-    TD_PAR
+    TD_PAR,
+    TD_GRV
 };
 
 bool isWindows = true;
@@ -79,6 +82,14 @@ void dance_ctn_reset (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
+void dance_grv_finished (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+   SEND_STRING("`");
+  } else {
+    SEND_STRING("~"); 
+  }
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
     // tap twice for change
     [TD_CTN] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_ctn_finished, dance_ctn_reset),
@@ -91,7 +102,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_TAB] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_ESC),
     [TD_COMM] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_SCLN),
     [TD_DOT] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, LSFT(KC_SCLN)),
-    [TD_EQL] = ACTION_TAP_DANCE_DOUBLE(KC_EQL, LSFT(KC_MINS))
+    [TD_EQL] = ACTION_TAP_DANCE_DOUBLE(KC_EQL, LSFT(KC_MINS)),
+    [TD_GRV] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_grv_finished, NULL)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -109,13 +121,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     TD(TD_TAB), LSFT(KC_5), KC_NUHS, LSFT(KC_7), LSFT(KC_1), LSFT(KC_SLSH),      KC_7,    KC_8,    KC_9,  KC_SLASH,  KC_UP, LSFT(KC_8),
+     TD(TD_TAB), LSFT(KC_5), KC_NUHS, LSFT(KC_7), LSFT(KC_1), LSFT(KC_SLSH),     KC_KP_7, KC_KP_8, KC_KP_9, KC_PMNS,  KC_UP,  KC_PPLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_ALT), LSFT(KC_4), XXXXXXX, TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),        KC_4,    KC_5,    KC_6,  KC_LEFT, KC_DOWN, KC_RIGHT,
+     TD(TD_ALT), LSFT(KC_4), KC_BSLS, TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_CTN), LSFT(KC_6), LSFT(KC_2), KC_QUOT, KC_GRV, KC_BSLS,                KC_1,    KC_2,    KC_3,  KC_MINS, LSFT(KC_EQL), TD(TD_SHIFT),
+     TD(TD_CTN), LSFT(KC_6), LSFT(KC_2), KC_QUOT, LSFT(KC_QUOT), TD(TD_GRV),     KC_KP_1, KC_KP_2, KC_KP_3, KC_PSLS, KC_PAST, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX,  KC_TAB,  KC_SPC,     KC_SPC,   TT(1),   KC_0
+                                         XXXXXXX,  KC_TAB,  KC_SPC,     KC_SPC,   TT(1),   KC_KP_0
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -151,7 +163,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          TT(4),  XXXXXXX,  KC_SPC,     KC_SPC, XXXXXXX, XXXXXXX
+                                          TT(4),  XXXXXXX,  KC_SPC,     KC_SPC, RGB_TOG, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
 };
