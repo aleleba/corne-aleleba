@@ -285,10 +285,8 @@ const int lastLed = 53;
 
 // Light LEDs when caps lock is active. Hard to ignore!
 const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { lastLed, 1, HSV_RED } // Light last LEDs only
-);
-const rgblight_segment_t my_isWindows_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { firstLed, 1, HSV_RED } // Light first LEDs only
+    { lastLed, 1, HSV_RED }, // Light last LEDs only
+    { firstLed, 1, HSV_RED } // Light first LEDs only 
 );
 // Light LEDs layer 1 is active
 const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -305,9 +303,8 @@ const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 
 // Now define the array of layers. Later layers take precedence
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_capslock_layer,
-    my_isWindows_layer, // Overrides caps lock layer 
-    my_layer1_layer,    // Overrides is Windows layer
+    my_capslock_layer,  // Overrides caps lock and Windos layer 
+    my_layer1_layer,    // Overrides other layers
     my_layer2_layer,    // Overrides other layers
     my_layer3_layer     // Overrides other layers
 );
@@ -324,13 +321,13 @@ bool led_update_user(led_t led_state) {
 }
 
 layer_state_t default_layer_state_set_user(layer_state_t state) {
-    //rgblight_set_layer_state(1, layer_state_cmp(state, 0));
+    rgblight_set_layer_state(0, layer_state_cmp(state, 0));
     return state;
 }
 
   layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(2, layer_state_cmp(state, 1));
-    rgblight_set_layer_state(3, layer_state_cmp(state, 2));
-    rgblight_set_layer_state(4, layer_state_cmp(state, 3));
+    rgblight_set_layer_state(1, layer_state_cmp(state, 1));
+    rgblight_set_layer_state(2, layer_state_cmp(state, 2));
+    rgblight_set_layer_state(3, layer_state_cmp(state, 3));
     return state;
 }
