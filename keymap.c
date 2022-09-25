@@ -189,27 +189,21 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
-        case L_QWERTY:
-            oled_write_ln_P(PSTR("Default"), false);
-            break;
-        case L_SYMBOLS_NUMPAD:
-            oled_write_ln_P(PSTR("Symbols - Numpad"), false);
-            break;
-        case L_MEDIA:
-            oled_write_ln_P(PSTR("Media"), false);
-            break;
-        case L_GAIMING:
-            oled_write_ln_P(PSTR("Gaming"), false);
-            break;
-        case L_ADJUST:
-            oled_write_ln_P(PSTR("Adjust"), false);
-            break;
-        /*case L_ADJUST:
-        case L_ADJUST|L_SYMBOLS_NUMPAD:
-        case L_ADJUST|L_MEDIA:
-        case L_ADJUST|L_SYMBOLS_NUMPAD|L_MEDIA:
-            oled_write_ln_P(PSTR("Adjust"), false);
-            break;*/
+      case L_QWERTY:
+          oled_write_ln_P(PSTR("Default"), false);
+          break;
+      case L_SYMBOLS_NUMPAD:
+          oled_write_ln_P(PSTR("Symbols - Numpad"), false);
+          break;
+      case L_MEDIA:
+          oled_write_ln_P(PSTR("Media"), false);
+          break;
+      case L_GAIMING:
+          oled_write_ln_P(PSTR("Gaming"), false);
+          break;
+      case L_ADJUST:
+          oled_write_ln_P(PSTR("Adjust"), false);
+          break;
     }
 }
 
@@ -283,3 +277,60 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 #endif // OLED_ENABLE
+
+// RGB LAYER CONFIGURATION
+// LENGHTH OF LEDS
+const int firstLed = 1;
+const int lastLed = 53;
+
+// Light LEDs when caps lock is active. Hard to ignore!
+const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    { lastLed, 1, HSV_RED } // Light last LEDs only
+);
+const rgblight_segment_t my_isWindows_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    { firstLed, 1, HSV_RED } // Light first LEDs only
+);
+// Light LEDs layer 1 is active
+const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {firstLed, lastLed, HSV_CYAN }
+);
+// Light LEDs layer 2 is active
+const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {firstLed, lastLed, HSV_YELLOW }
+);
+// Light LEDs layer 3 is active
+const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {firstLed, lastLed, HSV_SPRINGGREEN}
+);
+
+// Now define the array of layers. Later layers take precedence
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_capslock_layer,
+    my_isWindows_layer, // Overrides caps lock layer 
+    my_layer1_layer,    // Overrides is Windows layer
+    my_layer2_layer,    // Overrides other layers
+    my_layer3_layer     // Overrides other layers
+);
+
+void keyboard_post_init_user(void) {
+    // Enable the LED layers
+    rgblight_layers = my_rgb_layers;
+}
+
+// enabling disabling layers
+bool led_update_user(led_t led_state) {
+    rgblight_set_layer_state(0, led_state.caps_lock);
+    return true;
+}
+
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    //rgblight_set_layer_state(1, layer_state_cmp(state, 0));
+    return state;
+}
+
+  layer_state_t layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(2, layer_state_cmp(state, 1));
+    rgblight_set_layer_state(3, layer_state_cmp(state, 2));
+    rgblight_set_layer_state(4, layer_state_cmp(state, 3));
+    return state;
+}
