@@ -283,9 +283,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 const int firstLed = 1;
 const int lastLed = 53;
 
+// uint8_t rgbmode;
+// bool rgbStatus = true;
+
+void rgb_matrix_indicators_user(void) {
+  #ifdef RGB_MATRIX_ENABLE
+  switch (biton32(layer_state)) {
+    case 1:
+      /* for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+          rgb_matrix_set_color(i, 255, 0, 0);
+      } */
+      rgb_matrix_set_color_all(255, 0, 0);
+      break;
+
+    case 2:
+      /* for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+         rgb_matrix_set_color(i, 0, 0, 255);
+      } */
+      rgb_matrix_set_color_all(0, 0, 255);
+      break;
+
+    default:
+      if (isWindows == false){
+        rgb_matrix_set_color(8, 0, 255, 0);
+      }
+      if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+        rgb_matrix_set_color(10, 0, 255, 0);
+      }
+      break;
+  }
+  #endif
+}
+
 // Light LEDs when caps lock is active. Hard to ignore!
-const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { lastLed, 1, HSV_RED }, // Light last LEDs only
+/* const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    { lastLed, 1, HSV_RED } // Light last LEDs only
+);
+const rgblight_segment_t PROGMEM isWindos_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     { firstLed, 1, HSV_RED } // Light first LEDs only 
 );
 // Light LEDs layer 1 is active
@@ -303,7 +337,8 @@ const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 
 // Now define the array of layers. Later layers take precedence
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_capslock_layer,  // Overrides caps lock and Windos layer 
+    my_capslock_layer,  // Overrides caps lock and Windos layer,
+    isWindos_layer,
     my_layer1_layer,    // Overrides other layers
     my_layer2_layer,    // Overrides other layers
     my_layer3_layer     // Overrides other layers
@@ -317,17 +352,21 @@ void keyboard_post_init_user(void) {
 // enabling disabling layers
 bool led_update_user(led_t led_state) {
     rgblight_set_layer_state(0, led_state.caps_lock);
+
     return true;
 }
 
 layer_state_t default_layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(0, layer_state_cmp(state, 0));
     return state;
-}
+} */
 
-  layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(1, layer_state_cmp(state, 1));
-    rgblight_set_layer_state(2, layer_state_cmp(state, 2));
-    rgblight_set_layer_state(3, layer_state_cmp(state, 3));
+/* layer_state_t layer_state_set_user(layer_state_t state) {
+    if(isWindows == false){
+      rgblight_set_layer_state(1, layer_state_cmp(state, 0)); 
+    }
+    rgblight_set_layer_state(2, layer_state_cmp(state, 1));
+    rgblight_set_layer_state(3, layer_state_cmp(state, 2));
+    rgblight_set_layer_state(4, layer_state_cmp(state, 3));
     return state;
-}
+} */
