@@ -38,7 +38,7 @@ enum {
     TD_BSLS
 };
 
-bool isWindows = true;
+bool isWindows = false; // Change to make default config Windows
 
 void dance_ctn_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
@@ -283,46 +283,33 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     for (uint8_t i = led_min; i <= led_max; i++) {
         switch(get_highest_layer(layer_state|default_layer_state)) {
           case 1:
-            rgb_matrix_set_color(i, RGB_GREEN);
+            if((i == 6) || (i >= 13 && i <= 14) || (i >= 40 && i <= 41) || (i == 33)){
+              rgb_matrix_set_color(i, RGB_CHARTREUSE);
+            }
             break;
           case 2:
-            rgb_matrix_set_color(i, RGB_RED);
+            if((i == 6) || (i >= 13 && i <= 14) || (i >= 40 && i <= 41) || (i == 33)){
+              rgb_matrix_set_color(i, RGB_ORANGE);
+            }
             break;
           case 3:
-            rgb_matrix_set_color(i, RGB_BLUE);
+            if((i == 6) || (i >= 13 && i <= 14) || (i >= 40 && i <= 41) || (i == 33)){
+              rgb_matrix_set_color(i, RGB_CYAN);
+            }
+            break;
+          case 4:
+            if((i == 6) || (i >= 13 && i <= 14) || (i >= 40 && i <= 41) || (i == 33)){
+              rgb_matrix_set_color(i, RGB_AZURE);
+            }
             break;
           default:
-            if (isWindows == false){
-              rgb_matrix_set_color(26, RGB_GREEN);
+            if (isWindows == true){ // Change to false if main config is Mac
+              rgb_matrix_set_color(26, RGB_WHITE);
             }
             if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-              rgb_matrix_set_color(53, RGB_GREEN);
+              rgb_matrix_set_color(53, RGB_WHITE);
             }
             break;
         }
     }
 }
-
-/* void rgb_matrix_indicators_user(void) {
-  #ifdef RGB_MATRIX_ENABLE
-  switch (biton32(layer_state)) {
-    case 1:
-      rgb_matrix_set_color_all(RGB_GREEN);
-      break;
-    case 2:
-      rgb_matrix_set_color_all(RGB_RED);
-      break;
-    case 3:
-      rgb_matrix_set_color_all(RGB_BLUE);
-      break;
-    default:
-      if (isWindows == false){
-        rgb_matrix_set_color(26, RGB_RED);
-      }
-      if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-        rgb_matrix_set_color(53, RGB_RED);
-      }
-      break;
-  }
-  #endif
-} */
