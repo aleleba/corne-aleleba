@@ -293,10 +293,10 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             break;
           default:
             if (isWindows == false){
-              rgb_matrix_set_color(26, RGB_RED);
+              rgb_matrix_set_color(26, RGB_GREEN);
             }
             if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-              rgb_matrix_set_color(53, RGB_RED);
+              rgb_matrix_set_color(53, RGB_GREEN);
             }
             break;
         }
