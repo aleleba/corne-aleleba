@@ -161,9 +161,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      RGB_HUD, RGB_HUI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_RMOD, RGB_MOD,                     RGB_VAD, RGB_VAI, XXXXXXX, XXXXXXX, XXXXXXX, RGB_M_R,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_RMOD, RGB_MOD,                     RGB_VAD, RGB_VAI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      RGB_SAD, RGB_SAI, XXXXXXX, XXXXXXX, XXXXXXX, RGB_M_P,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      RGB_SAD, RGB_SAI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           TT(4),  XXXXXXX,  KC_SPC,     KC_SPC, RGB_TOG, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -279,32 +279,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif // OLED_ENABLE
 
 // RGB LAYER CONFIGURATION
-// LENGHTH OF LEDS
-const int firstLedLeft = 1;
-const int lastLedLeft = 26;
-const int firstLedRight = 27;
-const int lastLedRight = 53;
-
-void rgb_matrix_indicators_user(void) {
-  #ifdef RGB_MATRIX_ENABLE
-  switch (biton32(layer_state)) {
-    case 1:
-      rgb_matrix_set_color_all(RGB_AZURE);
-      break;
-    case 2:
-      rgb_matrix_set_color_all(RGB_YELLOW);
-      break;
-    //case 3:
-      //rgb_matrix_set_color_all(29, 241, 161);
-      //break;
-    default:
-      if (isWindows == false){
-        rgb_matrix_set_color(lastLedLeft, 255, 166, 1);
-      }
-      if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-        rgb_matrix_set_color(lastLedRight, 255, 166, 1);
-      }
-      break;
-  }
-  #endif
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    for (uint8_t i = led_min; i <= led_max; i++) {
+        switch(get_highest_layer(layer_state|default_layer_state)) {
+          case 1:
+            rgb_matrix_set_color(i, RGB_GREEN);
+            break;
+          case 2:
+            rgb_matrix_set_color(i, RGB_RED);
+            break;
+          case 3:
+            rgb_matrix_set_color(i, RGB_BLUE);
+            break;
+          default:
+            if (isWindows == false){
+              rgb_matrix_set_color(26, RGB_RED);
+            }
+            if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+              rgb_matrix_set_color(53, RGB_RED);
+            }
+            break;
+        }
+    }
 }
