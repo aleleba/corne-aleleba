@@ -302,3 +302,27 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         }
     }
 }
+
+/* void rgb_matrix_indicators_user(void) {
+  #ifdef RGB_MATRIX_ENABLE
+  switch (biton32(layer_state)) {
+    case 1:
+      rgb_matrix_set_color_all(RGB_GREEN);
+      break;
+    case 2:
+      rgb_matrix_set_color_all(RGB_RED);
+      break;
+    case 3:
+      rgb_matrix_set_color_all(RGB_BLUE);
+      break;
+    default:
+      if (isWindows == false){
+        rgb_matrix_set_color(26, RGB_RED);
+      }
+      if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+        rgb_matrix_set_color(53, RGB_RED);
+      }
+      break;
+  }
+  #endif
+} */
