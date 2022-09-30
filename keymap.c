@@ -17,25 +17,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-
+#include "version.h"
+#include <keymap_spanish_latin.h>
 #include <stdbool.h>
-
-#include <keymap_us_international.h>
 
 enum {
     TD_CTN,
-    TD_ENTER,
     TD_SHIFT,
     TD_ALT,
     TD_TAB,
     TD_COMM,
     TD_DOT,
-    TD_EQL,
+    TD_L,
+    TD_NTIL,
     TD_BRC,
     TD_SBRC,
     TD_PAR,
     TD_GRV,
-    TD_BSLS
+    TD_ABK,
+    TD_MINS,
+    TD_SPC,
+    TD_EXL,
+    TD_QUES,
+    TD_PERC
 };
 
 bool isWindows = false; // Change to make default config Windows
@@ -83,51 +87,48 @@ void dance_ctn_reset (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void dance_grv_finished (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-   SEND_STRING("`");
-  } else {
-    SEND_STRING("~"); 
-  }
-}
-
 qk_tap_dance_action_t tap_dance_actions[] = {
     // tap twice for change
     [TD_CTN] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_ctn_finished, dance_ctn_reset),
-    [TD_BRC] = ACTION_TAP_DANCE_DOUBLE(LSFT(KC_LBRC), LSFT(KC_RBRC)),
-    [TD_SBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
-    [TD_PAR] = ACTION_TAP_DANCE_DOUBLE(LSFT(KC_9), LSFT(KC_0)),
-    [TD_ENTER] = ACTION_TAP_DANCE_DOUBLE(KC_ENT, KC_MINS),
+    [TD_BRC] = ACTION_TAP_DANCE_DOUBLE(ES_LCBR, ES_RCBR),
+    [TD_SBRC] = ACTION_TAP_DANCE_DOUBLE(ES_LBRC, ES_RBRC),
+    [TD_PAR] = ACTION_TAP_DANCE_DOUBLE(ES_LPRN, ES_RPRN),
     [TD_SHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
     [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_RALT, KC_LALT),
     [TD_TAB] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_ESC),
-    [TD_COMM] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_SCLN),
-    [TD_DOT] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, LSFT(KC_SCLN)),
-    [TD_EQL] = ACTION_TAP_DANCE_DOUBLE(KC_EQL, LSFT(KC_MINS)),
-    [TD_GRV] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_grv_finished, NULL),
-    [TD_BSLS] = ACTION_TAP_DANCE_DOUBLE(LSFT(KC_BSLS), KC_BSLS)
+    [TD_COMM] = ACTION_TAP_DANCE_DOUBLE(ES_COMM, ES_SCLN),
+    [TD_DOT] = ACTION_TAP_DANCE_DOUBLE(ES_DOT, ES_SCLN),
+    [TD_L] = ACTION_TAP_DANCE_DOUBLE(ES_L, ES_EQL),
+    [TD_NTIL] = ACTION_TAP_DANCE_DOUBLE(ES_NTIL, ES_SLSH),
+    [TD_GRV] = ACTION_TAP_DANCE_DOUBLE(ES_GRV, ES_TILD),
+    [TD_ABK] = ACTION_TAP_DANCE_DOUBLE(ES_LABK, ES_RABK),
+    [TD_MINS] = ACTION_TAP_DANCE_DOUBLE(ES_MINS, ES_UNDS),
+    [TD_SPC] = ACTION_TAP_DANCE_DOUBLE(KC_SPC, ES_ACUT),
+    [TD_EXL] = ACTION_TAP_DANCE_DOUBLE(ES_EXLM, ES_IEXL),
+    [TD_QUES] = ACTION_TAP_DANCE_DOUBLE(ES_QUES, ES_IQUES),
+    [TD_PERC] = ACTION_TAP_DANCE_DOUBLE(ES_PERC, ES_CIRC),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-------------------------------------------------------.
-    TD(TD_TAB),    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+    TD(TD_TAB), ES_Q,    ES_W,    ES_E,    ES_R,    ES_T,                         ES_Y,    ES_U,    ES_I,    ES_O,    ES_P,   KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+----------|
-    TD(TD_ALT),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,   KC_J,    KC_K,    KC_L, TD(TD_EQL), TD(TD_ENTER),
+    TD(TD_ALT),  ES_A,    ES_S,    ES_D,    ES_F,   ES_G,                         ES_H,   ES_J,    ES_K,   TD(TD_L), TD(TD_NTIL), KC_ENT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+----------|
-    TD(TD_CTN),   KC_Z,    KC_X,    KC_C,  KC_V,   KC_B,                          KC_N,   KC_M, TD(TD_COMM), TD(TD_DOT),  KC_SLSH, TD(TD_SHIFT),
+    TD(TD_CTN), ES_Z,    ES_X,    ES_C,    ES_V,   ES_B,                          ES_N,   ES_M,   TD(TD_COMM), TD(TD_DOT), TD(TD_MINS), TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+----------|
-                                          TT(4),   TT(2),  KC_SPC,     KC_SPC,   TT(1), TT(3)
+                                           TT(4),  TT(2),  TD(TD_SPC), TD(TD_SPC), TT(1), TT(3)
                                       //`--------------------------'  `--------------------------'
   ),
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     TD(TD_TAB), LSFT(KC_5), LSFT(KC_3), LSFT(KC_7), LSFT(KC_1), LSFT(KC_SLSH),  KC_KP_7, KC_KP_8, KC_KP_9, KC_PMNS,  KC_UP,  KC_PPLS,
+     TD(TD_TAB), TD(TD_PERC), ES_AMPR, ES_PIPE, TD(TD_QUES), TD(TD_EXL),        KC_KP_7, KC_KP_8, KC_KP_9, ES_MINS,  KC_UP,  ES_PLUS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_ALT), LSFT(KC_4), TD(TD_BSLS), TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),   KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
+     TD(TD_ALT), ES_DLR, TD(TD_ABK), TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_CTN), LSFT(KC_6), LSFT(KC_2), KC_QUOT, LSFT(KC_QUOT), TD(TD_GRV),     KC_KP_1, KC_KP_2, KC_KP_3, KC_PSLS, KC_PAST, TD(TD_SHIFT),
+     TD(TD_CTN), ES_HASH, ES_AT, ES_QUOT, ES_DQUO, TD(TD_GRV),                  KC_KP_1, KC_KP_2, KC_KP_3, ES_SLSH, ES_ASTR, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX,  KC_TAB,  KC_SPC,     KC_SPC,   TT(1),   KC_KP_0
                                       //`--------------------------'  `--------------------------'
@@ -147,11 +148,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-    TD(TD_TAB),  KC_Q,  KC_W,    KC_E,    KC_R,    KC_T,                        KC_KP_7, KC_KP_8, KC_KP_9, KC_PMNS,  KC_UP,  KC_PPLS,
+    TD(TD_TAB), ES_Q,    ES_W,    ES_E,    ES_R,    ES_T,                       KC_KP_7, KC_KP_8, KC_KP_9, ES_MINS,  KC_UP,  ES_PLUS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    TD(TD_ALT),  KC_A,    KC_S,    KC_D,   KC_F,    KC_G,                       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
+    TD(TD_ALT),  ES_A,    ES_S,    ES_D,    ES_F,   ES_G,                       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    TD(TD_CTN),  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,                       KC_KP_1, KC_KP_2, KC_KP_3, KC_PSLS, KC_PAST, TD(TD_SHIFT),
+    TD(TD_CTN), ES_Z,    ES_X,    ES_C,    ES_V,   ES_B,                        KC_KP_1, KC_KP_2, KC_KP_3, ES_SLSH, ES_ASTR, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                         TD(TD_CTN), TD(TD_SHIFT),KC_SPC, KC_SPC, TT(3),   KC_KP_0
                                       //`--------------------------'  `--------------------------'
