@@ -38,7 +38,17 @@ enum {
     TD_SPC,
     TD_EXL,
     TD_QUES,
-    TD_PERC
+    TD_PERC,
+    TD_1,
+    TD_2,
+    TD_3,
+    TD_4,
+    TD_5,
+    TD_6,
+    TD_7,
+    TD_8,
+    TD_9,
+    TD_0,
 };
 
 bool isWindows = false; // Change to make default config Windows
@@ -105,6 +115,16 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_EXL] = ACTION_TAP_DANCE_DOUBLE(ES_EXLM, ES_IEXL),
     [TD_QUES] = ACTION_TAP_DANCE_DOUBLE(ES_QUES, ES_IQUES),
     [TD_PERC] = ACTION_TAP_DANCE_DOUBLE(ES_PERC, ES_CIRC),
+    [TD_1] = ACTION_TAP_DANCE_DOUBLE(KC_KP_1, KC_F1),
+    [TD_2] = ACTION_TAP_DANCE_DOUBLE(KC_KP_2, KC_F2),
+    [TD_3] = ACTION_TAP_DANCE_DOUBLE(KC_KP_3, KC_F3),
+    [TD_4] = ACTION_TAP_DANCE_DOUBLE(KC_KP_4, KC_F4),
+    [TD_5] = ACTION_TAP_DANCE_DOUBLE(KC_KP_5, KC_F5),
+    [TD_6] = ACTION_TAP_DANCE_DOUBLE(KC_KP_6, KC_F6),
+    [TD_7] = ACTION_TAP_DANCE_DOUBLE(KC_KP_7, KC_F7),
+    [TD_8] = ACTION_TAP_DANCE_DOUBLE(KC_KP_8, KC_F8),
+    [TD_9] = ACTION_TAP_DANCE_DOUBLE(KC_KP_9, KC_F9),
+    [TD_0] = ACTION_TAP_DANCE_DOUBLE(KC_KP_0, KC_F10),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -146,13 +166,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-    TD(TD_TAB), ES_Q,    ES_W,    ES_E,    ES_R,    ES_T,                       KC_KP_7, KC_KP_8, KC_KP_9, ES_MINS,  KC_UP,  ES_PLUS,
+    TD(TD_TAB), ES_Q,    ES_W,    ES_E,    ES_R,    ES_T,                       TD(TD_7), TD(TD_8), TD(TD_9), ES_MINS,  KC_UP,  ES_PLUS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    TD(TD_ALT),  ES_A,    ES_S,    ES_D,    ES_F,   ES_G,                       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
+    TD(TD_ALT),  ES_A,    ES_S,    ES_D,    ES_F,   ES_G,                       TD(TD_4), TD(TD_5), TD(TD_6), KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    TD(TD_CTN), ES_Z,    ES_X,    ES_C,    ES_V,   ES_B,                        KC_KP_1, KC_KP_2, KC_KP_3, ES_SLSH, ES_ASTR, TD(TD_SHIFT),
+    TD(TD_CTN), ES_Z,    ES_X,    ES_C,    ES_V,   ES_B,                        TD(TD_1), TD(TD_2), TD(TD_3), ES_SLSH, ES_ASTR, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                        TD(TD_CTN), TD(TD_SHIFT),KC_SPC, KC_SPC, TT(3),   KC_KP_0
+                                        TD(TD_CTN), TD(TD_SHIFT),KC_SPC, KC_SPC, TT(3),  TD(TD_0)
                                       //`--------------------------'  `--------------------------'
   ),
 
