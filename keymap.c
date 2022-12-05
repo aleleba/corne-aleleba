@@ -142,13 +142,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     TD(TD_TAB), TD(TD_PERC), ES_AMPR, ES_PIPE, TD(TD_QUES), TD(TD_EXL),        KC_KP_7, KC_KP_8, KC_KP_9, ES_MINS,  KC_UP,  ES_PLUS,
+     TD(TD_TAB), TD(TD_PERC), ES_AMPR, ES_PIPE, TD(TD_QUES), TD(TD_EXL),          KC_7,    KC_8,   KC_9,   ES_MINS,  KC_UP,  ES_PLUS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_ALT), ES_DLR, TD(TD_ABK), TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),       KC_KP_4, KC_KP_5, KC_KP_6, KC_LEFT, KC_DOWN, KC_RIGHT,
+     TD(TD_ALT), ES_DLR, TD(TD_ABK), TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),         KC_4,   KC_5,    KC_6,   KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_CTN), ES_HASH, ES_AT, ES_QUOT, ES_DQUO, TD(TD_GRV),                  KC_KP_1, KC_KP_2, KC_KP_3, ES_SLSH, ES_ASTR, TD(TD_SHIFT),
+     TD(TD_CTN), ES_HASH, ES_AT, ES_QUOT, ES_DQUO, TD(TD_GRV),                    KC_1,   KC_2,    KC_3,   ES_SLSH, ES_ASTR, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_TAB,  ES_EQL,  KC_SPC,     KC_SPC,   TT(1),   KC_KP_0
+                                         KC_TAB,  ES_EQL,  KC_SPC,     KC_SPC,   TT(1),   KC_0
                                       //`--------------------------'  `--------------------------'
   ),
 
