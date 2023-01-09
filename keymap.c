@@ -51,7 +51,7 @@ enum {
     TD_0,
 };
 
-bool isWindows = false; // Change to make default config Windows
+bool isWindows = true; // Change to make default config Windows
 
 void dance_ctn_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
@@ -322,7 +322,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             }
             break;
           default:
-            if (isWindows == true){ // Change to false if main config is Mac
+            if (isWindows == false){ // Change to false if main config is Mac
               rgb_matrix_set_color(26, RGB_WHITE);
             }
             if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
