@@ -51,9 +51,9 @@ enum {
     TD_0,
 };
 
-bool isWindows = true; // Change to make default config Windows
+bool isWindows = false; // Change to make default config Windows
 
-void dance_ctn_finished (qk_tap_dance_state_t *state, void *user_data) {
+void dance_ctn_finished (tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (isWindows == true) {
         register_code (KC_LCTL); 
@@ -77,7 +77,7 @@ void dance_ctn_finished (qk_tap_dance_state_t *state, void *user_data) {
     }
   }
 }
-void dance_ctn_reset (qk_tap_dance_state_t *state, void *user_data) {
+void dance_ctn_reset (tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (isWindows == true) {
         unregister_code (KC_LCTL); 
@@ -96,7 +96,7 @@ void dance_ctn_reset (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     // tap twice for change
     [TD_CTN] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_ctn_finished, dance_ctn_reset),
     [TD_BRC] = ACTION_TAP_DANCE_DOUBLE(ES_LCBR, ES_RCBR),
@@ -298,7 +298,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif // OLED_ENABLE
 
 // RGB LAYER CONFIGURATION
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     for (uint8_t i = led_min; i <= led_max; i++) {
         switch(get_highest_layer(layer_state|default_layer_state)) {
           case 1:
@@ -322,7 +322,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             }
             break;
           default:
-            if (isWindows == false){ // Change to false if main config is Mac
+            if (isWindows != false){ // Change to false if main config is Mac
               rgb_matrix_set_color(26, RGB_WHITE);
             }
             if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
@@ -331,4 +331,5 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             break;
         }
     }
+    return true;
 }

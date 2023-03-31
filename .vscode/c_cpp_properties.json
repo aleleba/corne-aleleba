@@ -3,11 +3,12 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/usr/local/Cellar/boost/1.81.0_1/include/boost/predef"
             ],
             "defines": [],
             "macFrameworkPath": [],
-            "compilerPath": "/opt/homebrew/bin/arm-none-eabi-gcc",
+            "compilerPath": "/usr/bin/clang++",
             "cStandard": "gnu17",
             "cppStandard": "gnu++14",
             "intelliSenseMode": "macos-gcc-arm"
