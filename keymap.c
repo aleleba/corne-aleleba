@@ -28,7 +28,6 @@ enum {
     TD_TAB,
     TD_COMM,
     TD_DOT,
-    TD_NTIL,
     TD_BRC,
     TD_SBRC,
     TD_PAR,
@@ -108,7 +107,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_TAB] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_ESC),
     [TD_COMM] = ACTION_TAP_DANCE_DOUBLE(ES_COMM, ES_SCLN),
     [TD_DOT] = ACTION_TAP_DANCE_DOUBLE(ES_DOT, ES_COLN),
-    [TD_NTIL] = ACTION_TAP_DANCE_DOUBLE(ES_NTIL, ES_SLSH),
     [TD_GRV] = ACTION_TAP_DANCE_DOUBLE(ES_GRV, ES_TILD),
     [TD_ABK] = ACTION_TAP_DANCE_DOUBLE(ES_LABK, ES_RABK),
     [TD_MINS] = ACTION_TAP_DANCE_DOUBLE(ES_MINS, ES_UNDS),
@@ -134,7 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-------------------------------------------------------.
     TD(TD_TAB), ES_Q,    ES_W,    ES_E,    ES_R,    ES_T,                         ES_Y,    ES_U,    ES_I,    ES_O,    ES_P,   KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+----------|
-    TD(TD_ALT),  ES_A,    ES_S,    ES_D,    ES_F,   ES_G,                         ES_H,   ES_J,     ES_K,    ES_L, TD(TD_NTIL), KC_ENT,
+    TD(TD_ALT),  ES_A,    ES_S,    ES_D,    ES_F,   ES_G,                         ES_H,   ES_J,     ES_K,    ES_L, ES_NTIL, KC_ENT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+----------|
     TD(TD_CTN), ES_Z,    ES_X,    ES_C,    ES_V,   ES_B,                          ES_N,   ES_M,   TD(TD_COMM), TD(TD_DOT), TD(TD_MINS), TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+----------|
