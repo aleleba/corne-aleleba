@@ -39,6 +39,7 @@ enum {
     TD_EXL,
     TD_QUES,
     TD_PERC,
+    TD_SLSH,
     TD_1,
     TD_2,
     TD_3,
@@ -53,7 +54,7 @@ enum {
 
 bool isWindows = false; // Change to make default config Windows
 
-void dance_ctn_finished (tap_dance_state_t *state, void *user_data) {
+void dance_ctn_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (isWindows == true) {
         register_code (KC_LCTL); 
@@ -77,7 +78,7 @@ void dance_ctn_finished (tap_dance_state_t *state, void *user_data) {
     }
   }
 }
-void dance_ctn_reset (tap_dance_state_t *state, void *user_data) {
+void dance_ctn_reset (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (isWindows == true) {
         unregister_code (KC_LCTL); 
@@ -96,7 +97,7 @@ void dance_ctn_reset (tap_dance_state_t *state, void *user_data) {
   }
 }
 
-tap_dance_action_t tap_dance_actions[] = {
+qk_tap_dance_action_t tap_dance_actions[] = {
     // tap twice for change
     [TD_CTN] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_ctn_finished, dance_ctn_reset),
     [TD_BRC] = ACTION_TAP_DANCE_DOUBLE(ES_LCBR, ES_RCBR),
@@ -115,6 +116,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_EXL] = ACTION_TAP_DANCE_DOUBLE(ES_EXLM, ES_IEXL),
     [TD_QUES] = ACTION_TAP_DANCE_DOUBLE(ES_QUES, ES_IQUES),
     [TD_PERC] = ACTION_TAP_DANCE_DOUBLE(ES_PERC, ES_CIRC),
+    [TD_SLSH] = ACTION_TAP_DANCE_DOUBLE(ES_SLSH, ES_BSLS),
     [TD_1] = ACTION_TAP_DANCE_DOUBLE(KC_KP_1, KC_F1),
     [TD_2] = ACTION_TAP_DANCE_DOUBLE(KC_KP_2, KC_F2),
     [TD_3] = ACTION_TAP_DANCE_DOUBLE(KC_KP_3, KC_F3),
@@ -146,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      TD(TD_ALT), ES_DLR, TD(TD_ABK), TD(TD_BRC), TD(TD_PAR), TD(TD_SBRC),         KC_4,   KC_5,    KC_6,   KC_LEFT, KC_DOWN, KC_RIGHT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_CTN), ES_HASH, ES_AT, ES_QUOT, ES_DQUO, TD(TD_GRV),                    KC_1,   KC_2,    KC_3,   ES_SLSH, ES_ASTR, TD(TD_SHIFT),
+     TD(TD_CTN), ES_HASH, ES_AT, ES_QUOT, ES_DQUO, TD(TD_GRV),                    KC_1,   KC_2,    KC_3,   TD(TD_SLSH), ES_ASTR, TD(TD_SHIFT),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          KC_TAB,  ES_EQL,  KC_SPC,     KC_SPC,   TT(1),   KC_0
                                       //`--------------------------'  `--------------------------'
@@ -298,7 +300,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif // OLED_ENABLE
 
 // RGB LAYER CONFIGURATION
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     for (uint8_t i = led_min; i <= led_max; i++) {
         switch(get_highest_layer(layer_state|default_layer_state)) {
           case 1:
@@ -331,5 +333,4 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             break;
         }
     }
-    return true;
 }
